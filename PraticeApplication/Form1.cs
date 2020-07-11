@@ -29,7 +29,9 @@ namespace PraticeApplication
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            Frm_CreateCharacter charcreator = new Frm_CreateCharacter();
+            charcreator.Show();
         }
+
     }
 }
