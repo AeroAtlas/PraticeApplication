@@ -10,24 +10,14 @@ using System.Windows.Forms;
 
 namespace PraticeApplication
 {
-    public partial class Frm_Menu : Form
+    public partial class Frm_CreateCharacter : Form
     {
-        public Frm_Menu()
+        public Frm_CreateCharacter()
         {
             InitializeComponent();
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Form_Menu_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
+        private void Frm_CreateCharacter_Load(object sender, EventArgs e)
         {
 
         }
