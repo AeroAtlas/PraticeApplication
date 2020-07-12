@@ -11,6 +11,10 @@ namespace PraticeApplication.CharacterClasses
     public abstract class Entity
     {
         #region Fields Region
+        //Add a random Geenerator
+        protected Random rand;
+
+        //Add stat variables
         protected string _name;
         protected EntitySex _sex;
         protected int _strength, _speed, _health, _intelligence;
@@ -21,11 +25,12 @@ namespace PraticeApplication.CharacterClasses
         public string Name
         {
             get { return _name; } //Returns name
-            set { _name = value; } //Lets them change name
+            protected set { _name = value; } //Lets them change name
         } 
         public EntitySex Sex
         {
             get { return _sex; }
+            protected set { _sex = value; }
         }
         public int Strength
         {
@@ -53,6 +58,7 @@ namespace PraticeApplication.CharacterClasses
         #region Constructor Region
         public Entity()
         {
+            Name = "";
             Strength = 0;
             Speed = 0;
             Health = 0;
