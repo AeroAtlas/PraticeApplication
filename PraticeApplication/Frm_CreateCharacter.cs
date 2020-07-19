@@ -9,6 +9,9 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+using System.Xml;
+using System.Xml.Serialization;
 //using PracticeApplication.CharacterClasses; is unnecissary 
 
 namespace PraticeApplication
@@ -43,8 +46,8 @@ namespace PraticeApplication
         private void Btn_CharacterSave_Click(object sender, EventArgs e)
         {
             //Make default character
-            Student player1 = new Student();
-            MessageBox.Show("You are a Student with " + player1.Strength.ToString() + ".", "New Student");
+            //Student player1 = new Student();
+            //MessageBox.Show("You are a Student with " + player1.Strength.ToString() + ".", "New Student");
 
             // Test: Make sure we can get all text
             String[] data = new string[3];
@@ -55,51 +58,116 @@ namespace PraticeApplication
             {
                 MessageBox.Show("You must name your character and name must not start with a space");
                 return;
-            } else
-            {
-                data[0] = Txt_CharacterName.Text; //Get Name
             }
-
             //Check if sex has been picked
             if(!this.Rdo_SexFemale.Checked && !this.Rdo_SexMale.Checked)
             {
                 MessageBox.Show("You must select your sex");
                 return;
-            } else
-            {
-                data[1] = (string)(this.Rdo_SexMale.Checked ? "Male" : "Female"); //Get Sex
             }
-
             //Check if class has been picked
             if (string.IsNullOrEmpty(Cbox_CharacterClass.Text))
             {
-
-            } else
-            {
-                data[2] = Cbox_CharacterClass.Text;
+                MessageBox.Show("You must select your class");
+                return;
             }
 
-            //data[0] = Txt_CharacterName.Text; //Get Name
-            //data[1] = (string)(this.Rdo_SexMale.Checked ? "Male" : "Female"); //Get Sex
-            //data[2] = Cbox_CharacterClass.Text;
+            //Add the values to the data array
+            data[0] = Txt_CharacterName.Text; //Get Name
+            data[1] = (string)(this.Rdo_SexMale.Checked ? "Male" : "Female"); //Get Sex
+            data[2] = Cbox_CharacterClass.Text;
 
-            //Create player character with specific class
-            switch(data[2])
+            //Create EntitySex variable
+            EntitySex eSex;
+            switch (data[1].ToLower())
             {
-            case "student":
-                Student player2 = new Student();
-                MessageBox.Show("You are a Student with " + player2.Strength.ToString() + "strength.", "New Student");
-                break;
-            case "worker":
-                Worker player2 = new Worker();
-                MessageBox.Show("You are a Student with " + player2.Strength.ToString() + "strength.", "New Worker");
-                break;
+                case "male":
+                    eSex = EntitySex.Male;
+                    break;
+                case "female":
+                    eSex = EntitySex.Female;
+                    break;
+                default:
+                    eSex = EntitySex.Unknown;
+                    break;
+            }
+
+            //Create EntityClass variable
+            EntityClass eClass;
+            switch (data[2].ToLower())
+            {
+                case "student":
+                    eClass = EntityClass.Student;
+                    break;
+                case "worker":
+                    eClass = EntityClass.Worker;
+                    break;
+                case "cop":
+                    eClass = EntityClass.Cop;
+                    break;
+                case "criminal":
+                    eClass = EntityClass.Criminal;
+                    break;
+                default:
+                    eClass = EntityClass.Unknown;
+                    break;
             };
 
-            String output = "Name: " + data[0] + "\nGender: " + data[1] + "\nClass: " + data[2];
 
-            // Test output
-            MessageBox.Show(output);
+            //Create example player
+            Player player1 = new Player(data[0], eSex, eClass);
+
+            String output1 = String.Format("{0} has been created. " + 
+                "\nThey are a {1} {2}", player1.Name.ToString(), player1.Sex.ToString(), player1.CharacterClass.ToString());
+
+            //Creates output string using the data[0..3]
+            String output2 = String.Format("{0} has been created.\nThey are a {1} {2}", data[0], data[1], data[2]);
+
+            // Show output
+            MessageBox.Show(output1, "Success");
+
+            StoreCharacter(player1);
+
+            // Close the window
+            this.Close();
         }
+
+        private void StoreCharacter(Player player)
+        {
+            using (Stream stream = File.Create(PlayerSettingsFile))
+            {
+                XmlSerializer ser = new XmlSerializer(player.GetType());
+                ser.Serialize(stream, player);
+            }
+        }
+
+        private static String SettingsFolder
+        {
+            get
+            {
+                //create a string folder
+                string folder = Environment.GetFolderPath(
+                    Environment.SpecialFolder.ApplicationData);
+                //add a subfolder
+                folder = Path.Combine(folder, "RPG Project");
+                folder = Path.Combine(folder, "CharacterSettings");
+                //create folder if it doesn't exist
+                if (!Directory.Exists(folder))
+                {
+                    Directory.CreateDirectory(folder);
+                }
+                //return folder
+                return folder;
+            }
+        }
+
+        private static String PlayerSettingsFile
+        {
+            get
+            {
+                return Path.Combine(SettingsFolder, "PlayerSettings.xml");
+            }
+        }
+
     }
 }
