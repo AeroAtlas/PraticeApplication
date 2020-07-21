@@ -47,10 +47,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CharacterClasses\Entity.cs" />
+    <Compile Include="CharacterClasses\FileManager.cs" />
     <Compile Include="CharacterClasses\NPC.cs" />
     <Compile Include="CharacterClasses\Player.cs" />
     <Compile Include="CharacterClasses\Student.cs" />
     <Compile Include="CharacterClasses\Worker.cs" />
+    <Compile Include="CharacterID.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CharacterID.Designer.cs">
+      <DependentUpon>CharacterID.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -65,6 +72,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="CharacterID.resx">
+      <DependentUpon>CharacterID.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

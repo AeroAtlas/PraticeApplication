@@ -59,7 +59,7 @@
             this.Btn_CreateCharacter.Name = "Btn_CreateCharacter";
             this.Btn_CreateCharacter.Size = new System.Drawing.Size(264, 45);
             this.Btn_CreateCharacter.TabIndex = 1;
-            this.Btn_CreateCharacter.Text = "Create Character";
+            this.Btn_CreateCharacter.Text = "New Game";
             this.Btn_CreateCharacter.UseVisualStyleBackColor = false;
             this.Btn_CreateCharacter.Click += new System.EventHandler(this.button1_Click);
             // 

@@ -60,7 +60,7 @@ namespace PraticeApplication
                 return;
             }
             //Check if sex has been picked
-            if(!this.Rdo_SexFemale.Checked && !this.Rdo_SexMale.Checked)
+            if (!this.Rdo_SexFemale.Checked && !this.Rdo_SexMale.Checked)
             {
                 MessageBox.Show("You must select your sex");
                 return;
@@ -117,57 +117,29 @@ namespace PraticeApplication
             //Create example player
             Player player1 = new Player(data[0], eSex, eClass);
 
-            String output1 = String.Format("{0} has been created. " + 
+            String output1 = String.Format("{0} has been created. " +
                 "\nThey are a {1} {2}", player1.Name.ToString(), player1.Sex.ToString(), player1.CharacterClass.ToString());
 
             //Creates output string using the data[0..3]
             String output2 = String.Format("{0} has been created.\nThey are a {1} {2}", data[0], data[1], data[2]);
 
+            //Create output string using whole player to string
+            String output3 = player1.ToString();
+
             // Show output
             MessageBox.Show(output1, "Success");
 
-            StoreCharacter(player1);
+            //Store Character
+            FileManager.StoreCharacter(player1);
+
+            //
+            CharacterID stats = new CharacterID();
+            stats.Show();
 
             // Close the window
             this.Close();
         }
 
-        private void StoreCharacter(Player player)
-        {
-            using (Stream stream = File.Create(PlayerSettingsFile))
-            {
-                XmlSerializer ser = new XmlSerializer(player.GetType());
-                ser.Serialize(stream, player);
-            }
-        }
-
-        private static String SettingsFolder
-        {
-            get
-            {
-                //create a string folder
-                string folder = Environment.GetFolderPath(
-                    Environment.SpecialFolder.ApplicationData);
-                //add a subfolder
-                folder = Path.Combine(folder, "RPG Project");
-                folder = Path.Combine(folder, "CharacterSettings");
-                //create folder if it doesn't exist
-                if (!Directory.Exists(folder))
-                {
-                    Directory.CreateDirectory(folder);
-                }
-                //return folder
-                return folder;
-            }
-        }
-
-        private static String PlayerSettingsFile
-        {
-            get
-            {
-                return Path.Combine(SettingsFolder, "PlayerSettings.xml");
-            }
-        }
-
+        
     }
 }

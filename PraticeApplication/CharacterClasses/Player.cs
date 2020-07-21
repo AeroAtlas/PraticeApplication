@@ -8,7 +8,6 @@ namespace PraticeApplication.CharacterClasses
 {
     public class Player : Entity
     {
-        Random rand = new Random();
 
         public Player() : base()
         {
@@ -27,10 +26,10 @@ namespace PraticeApplication.CharacterClasses
             Name = name;
             Sex = eSex;
             CharacterClass = eClass;
-            Strength = strength;
-            Speed = speed;
-            Health = health;
-            Intelligence = intelligence;
+            Strength = rand.Next(3,5);
+            Speed = rand.Next(3, 5);
+            Health = rand.Next(3, 5);
+            Intelligence = rand.Next(3, 5);
         }
     }
 }
